@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply bg-bg text-ink antialiased;
+  }
+  body {
+    @apply font-sans;
+  }
+  a, button, input, [tabindex] {
+    @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .eyebrow {
+    @apply font-mono uppercase tracking-[0.14em] text-[11px] text-accent font-bold;
+  }
+  .heading-serif {
+    @apply font-serif font-medium tracking-tight leading-[1.05];
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold whitespace-nowrap
+      transition-transform active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100;
+  }
+  .btn-primary {
+    @apply btn bg-black text-white hover:bg-[#2b271e];
+  }
+  .btn-secondary {
+    @apply btn bg-surface-raised text-ink border border-line-strong hover:border-ink;
+  }
+  .btn-ghost {
+    @apply btn bg-transparent text-ink border border-transparent px-1 py-2 hover:text-accent;
+  }
+  .btn-danger {
+    @apply btn bg-transparent text-danger border border-danger-soft hover:bg-danger-soft;
+  }
+  .btn-sm {
+    @apply px-4 py-2 text-xs;
+  }
+  .btn-block {
+    @apply w-full;
+  }
+
+  .icon-btn {
+    @apply w-[38px] h-[38px] rounded-full inline-flex items-center justify-center bg-white/85 border border-line
+      text-ink transition-transform hover:border-ink active:scale-95;
+  }
+  .icon-btn.is-active {
+    @apply text-danger border-danger-soft bg-danger-soft;
+  }
+
+  .card {
+    @apply bg-surface rounded-lg border border-line;
+  }
+  .card-raised {
+    @apply bg-surface-raised rounded-md border border-line shadow-soft;
+  }
+
+  .field-input {
+    @apply w-full font-sans text-sm px-3.5 py-3 rounded-sm border border-line-strong bg-surface-raised text-ink outline-none
+      transition-colors focus:border-ink focus:ring-4 focus:ring-accent-soft;
+  }
+  .field-input.has-error {
+    @apply border-danger;
+  }
+  .field-label {
+    @apply text-xs font-semibold text-ink-soft mb-1.5 block;
+  }
+  .field-error {
+    @apply text-xs text-danger mt-1 flex items-center gap-1;
+  }
+  .checkbox-row {
+    @apply flex items-center gap-2.5 text-sm text-ink-soft cursor-pointer py-1 hover:text-ink;
+  }
+  .checkbox {
+    @apply w-4 h-4 rounded accent-black border-line-strong cursor-pointer;
+  }
+
+  .badge {
+    @apply font-mono text-[10px] uppercase tracking-[0.08em] px-2.5 py-1 rounded-full bg-white/90 text-ink border border-line inline-block;
+  }
+  .badge-accent {
+    @apply bg-accent-soft text-accent border-transparent;
+  }
+  .badge-sage {
+    @apply bg-sage-soft text-sage border-transparent;
+  }
+
+  .underline-link {
+    @apply font-mono text-[12.5px] tracking-wide text-ink underline underline-offset-4 decoration-line-strong
+      inline-flex items-center gap-1 hover:text-accent hover:decoration-accent;
+  }
+
+  .container-page {
+    @apply max-w-[1360px] mx-auto px-4 sm:px-6;
+  }
+
+  .artwork-grid {
+    @apply grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5 lg:gap-6;
+  }
+  .artwork-grid.is-list {
+    @apply grid-cols-1;
+  }
+
+  .skeleton {
+    @apply bg-line rounded-sm bg-gradient-to-r from-line via-[#f1ede2] to-line bg-[length:200%_100%] animate-shimmer;
+  }
+}
