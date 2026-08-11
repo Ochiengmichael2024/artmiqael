@@ -12,6 +12,7 @@ export * from "./Container";
 export * from "./SectionHeader";
 export * from "./PageHeader";
 export * from "./IconBox";
+export * from "./ThemeToggle";
 export * from "./EmptyState";
 export * from "./ErrorState";
 export * from "./LoadingSpinner";

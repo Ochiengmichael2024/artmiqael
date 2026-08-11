@@ -5,6 +5,7 @@ import { PRIMARY_NAV } from "@/constants/navigation";
 import { ROUTES } from "@/constants/routes";
 import { IconButton } from "@/components/ui/IconButton";
 import { Button } from "@/components/ui/Button";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { useCart } from "@/hooks/useCart";
 import { useAuth } from "@/hooks/useAuth";
 import { useSearchSuggestions } from "@/hooks/useSearchSuggestions";
@@ -14,7 +15,7 @@ function CountDot({ n }: { n: number }) {
   return (
     <span
       aria-hidden="true"
-      className="absolute -top-1 -right-1 bg-black text-white text-[9.5px] font-bold w-4 h-4 rounded-full flex items-center justify-center"
+      className="absolute -top-1 -right-1 bg-ink text-surface text-[9.5px] font-bold w-4 h-4 rounded-full flex items-center justify-center"
     >
       {n > 9 ? "9+" : n}
     </span>
@@ -55,7 +56,7 @@ export function Header() {
         <div className="container-page flex justify-between items-center py-2 text-[11px]">
           <span className="font-mono tracking-[0.12em]">ART, DELIVERED WITH INTENTION</span>
           <span className="font-mono tracking-[0.1em] hidden sm:inline">Originals · Limited editions · Custom commissions</span>
-          <Link to={ROUTES.faqs} className="font-mono tracking-[0.1em] text-[#EFEAE0]">
+          <Link to={ROUTES.faqs} className="font-mono tracking-[0.1em] text-accent-soft">
             Help &amp; care
           </Link>
         </div>
@@ -168,6 +169,7 @@ export function Header() {
             <ShoppingBag size={16} />
             {cartCount > 0 && <CountDot n={cartCount} />}
           </IconButton>
+          <ThemeToggle />
           <Button variant="secondary" size="sm" onClick={() => navigate(isAuthenticated ? ROUTES.account : ROUTES.login)}>
             <User size={14} /> {isAuthenticated && user ? user.name.split(" ")[0] : "Account"}
           </Button>

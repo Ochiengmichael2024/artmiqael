@@ -1,24 +1,31 @@
 import type { Config } from "tailwindcss";
 
+const withOpacityValue = (variable: string) => ({ opacityValue }: { opacityValue?: string }) => {
+  if (opacityValue === undefined) {
+    return `rgb(var(${variable}))`;
+  }
+  return `rgb(var(${variable}) / ${opacityValue})`;
+};
+
 export default {
   content: ["./index.html", "./src/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {
-        bg: "#ECE8DE",
-        surface: "#F7F5EF",
-        "surface-raised": "#FFFFFF",
-        ink: "#17140F",
-        "ink-soft": "#736C5D",
-        "ink-faint": "#A39C89",
-        line: "#DBD5C6",
-        "line-strong": "#C7C0AE",
-        accent: "#8C5A2B",
-        "accent-soft": "#EFE1CC",
-        sage: "#57644F",
-        "sage-soft": "#E1E5D8",
-        danger: "#A3402F",
-        "danger-soft": "#F3DCD4",
+        bg: withOpacityValue("--bg-rgb"),
+        surface: withOpacityValue("--surface-rgb"),
+        "surface-raised": withOpacityValue("--surface-raised-rgb"),
+        ink: withOpacityValue("--ink-rgb"),
+        "ink-soft": withOpacityValue("--ink-soft-rgb"),
+        "ink-faint": withOpacityValue("--ink-faint-rgb"),
+        line: withOpacityValue("--line-rgb"),
+        "line-strong": withOpacityValue("--line-strong-rgb"),
+        accent: withOpacityValue("--accent-rgb"),
+        "accent-soft": withOpacityValue("--accent-soft-rgb"),
+        sage: withOpacityValue("--sage-rgb"),
+        "sage-soft": withOpacityValue("--sage-soft-rgb"),
+        danger: withOpacityValue("--danger-rgb"),
+        "danger-soft": withOpacityValue("--danger-soft-rgb"),
         black: {
           DEFAULT: "#16140F",
         },
