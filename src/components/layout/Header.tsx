@@ -11,6 +11,16 @@ import { useAuth } from "@/hooks/useAuth";
 import { useSearchSuggestions } from "@/hooks/useSearchSuggestions";
 import { MobileDrawer } from "@/components/layout/MobileDrawer";
 
+// lightweight wrapper to avoid SSR/bundling issues
+function GooeySearchPlaceholder() {
+  const Comp = React.lazy(() => import("@/components/ui/animated-search-bar/GooeySearchBar"));
+  return (
+    <React.Suspense fallback={<div className="h-9" />}>
+      <Comp />
+    </React.Suspense>
+  );
+}
+
 function CountDot({ n }: { n: number }) {
   return (
     <span
@@ -78,86 +88,13 @@ export function Header() {
         </nav>
 
         <div ref={searchRef} className="relative flex-1 min-w-0 max-w-full lg:max-w-[460px] ml-auto">
-          <div className="flex items-center gap-2 bg-surface-raised border border-line-strong rounded-full px-3.5 py-2.5">
-            <Search size={15} className="text-ink-faint shrink-0" />
-            <input
-              value={query}
-              onFocus={() => setSearchOpen(true)}
-              onChange={(e) => {
-                setQuery(e.target.value);
-                setSearchOpen(true);
-              }}
-              onKeyDown={(e) => e.key === "Enter" && runSearch()}
-              placeholder="Search works, artists and collections"
-              aria-label="Search"
-              className="border-0 outline-none bg-transparent flex-1 text-[13.5px]"
-            />
+          {/* Replaced native search with animated GooeySearchBar */}
+          <div className="w-full">
+            <React.Suspense>
+              {/* lazy import to avoid bundling framer-motion in SSR paths */}
+              <GooeySearchPlaceholder />
+            </React.Suspense>
           </div>
-          {searchOpen && (
-            <div className="card-raised absolute top-[calc(100%+8px)] left-0 right-0 z-40 p-3.5 max-h-[380px] overflow-auto">
-              {query.trim() === "" ? (
-                recentSearches.length > 0 ? (
-                  <>
-                    <div className="font-mono text-[10.5px] text-ink-faint mb-2">RECENT SEARCHES</div>
-                    {recentSearches.map((r) => (
-                      <button
-                        key={r}
-                        onClick={() => runSearch(r)}
-                        className="block w-full text-left bg-transparent border-0 py-1.5 px-1 text-[13.5px]"
-                      >
-                        {r}
-                      </button>
-                    ))}
-                  </>
-                ) : (
-                  <div className="text-[13px] text-ink-soft p-1.5">Start typing to search artworks, artists and styles.</div>
-                )
-              ) : (
-                <>
-                  {suggestions.artworks.length === 0 && suggestions.artists.length === 0 && (
-                    <div className="text-[13px] text-ink-soft p-1.5">No quick matches — press Enter to search all works.</div>
-                  )}
-                  {suggestions.artists.length > 0 && (
-                    <>
-                      <div className="font-mono text-[10.5px] text-ink-faint my-2">ARTISTS</div>
-                      {suggestions.artists.map((a) => (
-                        <Link
-                          key={a.id}
-                          to={ROUTES.artistDetail(a.id)}
-                          onClick={() => setSearchOpen(false)}
-                          className="flex items-center gap-2.5 py-1.5 px-1"
-                        >
-                          <img src={`https://picsum.photos/seed/${a.seed}/60/60`} alt="" className="w-[26px] h-[26px] rounded-full object-cover" />
-                          <span className="text-[13.5px]">{a.name}</span>
-                        </Link>
-                      ))}
-                    </>
-                  )}
-                  {suggestions.artworks.length > 0 && (
-                    <>
-                      <div className="font-mono text-[10.5px] text-ink-faint my-2">ARTWORKS</div>
-                      {suggestions.artworks.map((a) => (
-                        <Link
-                          key={a.id}
-                          to={ROUTES.product(a.id)}
-                          onClick={() => setSearchOpen(false)}
-                          className="flex items-center gap-2.5 py-1.5 px-1"
-                        >
-                          <img src={a.img} alt="" className="w-[30px] h-[36px] rounded-md object-cover bg-line" />
-                          <span className="text-[13.5px]">
-                            {a.title} <span className="text-ink-faint">— {a.artistName}</span>
-                          </span>
-                        </Link>
-                      ))}
-                    </>
-                  )}
-                  <button onClick={() => runSearch()} className="underline-link mt-2.5">
-                    See all results for &quot;{query}&quot;
-                  </button>
-                </>
-              )}
-            </div>
-          )}
         </div>
 
         <div className="flex flex-wrap items-center gap-1.5">
