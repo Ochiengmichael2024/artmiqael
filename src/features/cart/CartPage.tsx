@@ -43,7 +43,7 @@ export function CartPage() {
     <Container className="pt-7 pb-16">
       <Breadcrumbs items={[{ label: "Home", to: ROUTES.home }, { label: "Cart" }]} />
       <PageHeader title="Your cart" />
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-10">
+      <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,360px)] gap-10">
         <div>
           {items.map((c) => (
             <CartItemRow
@@ -66,9 +66,9 @@ export function CartPage() {
                 const a = findArtwork(id);
                 if (!a) return null;
                 return (
-                  <Card key={id} className="flex gap-4 p-4 mb-3 items-center">
+                  <Card key={id} className="flex flex-col sm:flex-row gap-4 p-4 mb-3 items-start sm:items-center">
                     <img src={a.img} alt="" className="w-[60px] h-[72px] rounded-lg object-cover shrink-0" />
-                    <div className="flex-1">
+                    <div className="flex-1 min-w-0">
                       <div className="font-serif text-[14.5px]">{a.title}</div>
                       <div className="text-xs text-ink-soft">{formatPrice(a.price)}</div>
                     </div>

@@ -39,8 +39,8 @@ export function QuickViewModal() {
               <div>{artwork.medium}</div>
               <div>{artwork.availability === "ready" ? "Ready to ship" : "Made to order"}</div>
             </div>
-            <div className="flex gap-2.5 mb-3">
-              <Button className="flex-1" onClick={() => addToCart(artwork.id)}>
+            <div className="flex flex-wrap gap-2.5 mb-3">
+              <Button className="flex-1 min-w-[160px]" onClick={() => addToCart(artwork.id)}>
                 <ShoppingBag size={15} /> Add to cart
               </Button>
               <IconButton aria-label="Wishlist" active={isWished} className="w-[46px] h-[46px]" onClick={() => toggleWishlist(artwork.id)}>

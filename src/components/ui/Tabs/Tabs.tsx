@@ -18,7 +18,7 @@ export function Tabs({ items, defaultKey }: TabsProps) {
 
   return (
     <div>
-      <div className="flex gap-6 border-b border-line" role="tablist">
+      <div className="flex flex-wrap gap-3 border-b border-line" role="tablist">
         {items.map((item) => (
           <button
             key={item.key}

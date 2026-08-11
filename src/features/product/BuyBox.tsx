@@ -53,12 +53,12 @@ export function BuyBox({ artwork, artist }: { artwork: Artwork; artist: Artist }
         </span>
       </div>
 
-      <div className="flex gap-2.5 mb-3">
-        <Button variant="secondary" className="flex-1" onClick={() => addToCart(artwork.id, qty)}>
+      <div className="flex flex-wrap gap-2.5 mb-3">
+        <Button variant="secondary" className="flex-1 min-w-[160px]" onClick={() => addToCart(artwork.id, qty)}>
           <ShoppingBag size={15} /> Add to cart
         </Button>
         <Button
-          className="flex-1"
+          className="flex-1 min-w-[160px]"
           onClick={() => {
             addToCart(artwork.id, qty);
             navigate(ROUTES.checkout);
@@ -79,7 +79,7 @@ export function BuyBox({ artwork, artist }: { artwork: Artwork; artist: Artist }
         </Button>
       </div>
 
-      <div className="card p-4.5 flex gap-3.5 items-center">
+      <div className="card p-4.5 flex flex-col sm:flex-row gap-3.5 items-start sm:items-center">
         <img src={`https://picsum.photos/seed/${artist.seed}/100/100`} alt="" className="w-11 h-11 rounded-full object-cover shrink-0" />
         <div className="flex-1">
           <div className="font-semibold text-sm">{artist.name}</div>

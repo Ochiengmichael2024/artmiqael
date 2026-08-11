@@ -34,7 +34,7 @@ export function Modal({ open, onClose, children, labelledBy, maxWidth = 440, cla
       onClick={onClose}
     >
       <div
-        className={cx("card-raised relative w-full", className)}
+        className={cx("card-raised relative w-full max-h-[calc(100vh-2rem)] overflow-auto", className)}
         style={{ maxWidth }}
         onClick={(e) => e.stopPropagation()}
       >

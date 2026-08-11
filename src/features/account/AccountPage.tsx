@@ -43,7 +43,7 @@ export function AccountPage() {
     <Container className="pt-7 pb-16">
       <Breadcrumbs items={[{ label: "Home", to: ROUTES.home }, { label: "Account" }]} />
       <SectionHeader title={`Hello, ${user.name.split(" ")[0]}`} sub="Track orders, manage saved works, and update your details." />
-      <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-9">
+      <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,220px)_1fr] gap-9">
         <div>
           {TABS.map(({ key, label, icon: Icon }) => (
             <button

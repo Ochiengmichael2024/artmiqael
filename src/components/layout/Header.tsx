@@ -62,14 +62,14 @@ export function Header() {
         </div>
       </div>
 
-      <div className="container-page flex items-center gap-5 py-4 border-b border-line">
+      <div className="container-page flex flex-wrap items-center gap-4 py-4 border-b border-line">
         <IconButton aria-label="Open menu" className="border border-line lg:hidden" onClick={() => setMobileOpen(true)}>
           <Menu size={17} />
         </IconButton>
         <Link to={ROUTES.home} className="font-serif text-[22px] font-semibold tracking-wide text-ink">
           ARTMIQAEL
         </Link>
-        <nav className="hidden lg:flex gap-6 ml-2">
+        <nav className="hidden lg:flex gap-6 lg:ml-2">
           {PRIMARY_NAV.map((l) => (
             <Link key={l.label} to={l.to} className="text-sm font-medium text-ink hover:text-accent">
               {l.label}
@@ -77,7 +77,7 @@ export function Header() {
           ))}
         </nav>
 
-        <div ref={searchRef} className="relative flex-1 max-w-[460px] ml-auto">
+        <div ref={searchRef} className="relative flex-1 min-w-0 max-w-full lg:max-w-[460px] ml-auto">
           <div className="flex items-center gap-2 bg-surface-raised border border-line-strong rounded-full px-3.5 py-2.5">
             <Search size={15} className="text-ink-faint shrink-0" />
             <input
@@ -160,7 +160,7 @@ export function Header() {
           )}
         </div>
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex flex-wrap items-center gap-1.5">
           <IconButton aria-label={`Wishlist (${wishlist.length})`} className="relative" onClick={() => navigate(ROUTES.wishlist)}>
             <Heart size={16} />
             {wishlist.length > 0 && <CountDot n={wishlist.length} />}

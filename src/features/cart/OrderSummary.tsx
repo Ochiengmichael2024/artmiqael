@@ -32,7 +32,7 @@ export function OrderSummary({
   onCheckout,
 }: OrderSummaryProps) {
   return (
-    <Card raised className="p-6 sticky top-24">
+    <Card raised className="p-6 lg:sticky lg:top-24">
       <div className="heading-serif text-xl mb-4.5">Order summary</div>
       <div className="flex gap-2 mb-4">
         <Input placeholder="Coupon code (try ART10)" value={couponInput} onChange={(e) => onCouponInputChange(e.target.value)} />

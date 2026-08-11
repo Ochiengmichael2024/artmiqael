@@ -40,13 +40,13 @@ export function ArtworkCard({ artwork, view = "grid" }: ArtworkCardProps) {
   if (view === "list") {
     return (
       <div
-        className="card animate-fade-up flex gap-5 p-4 cursor-pointer items-stretch"
+        className="card animate-fade-up flex flex-col gap-5 p-4 cursor-pointer items-stretch min-w-0"
         role="link"
         tabIndex={0}
         onClick={go}
         onKeyDown={(e) => e.key === "Enter" && go()}
       >
-        <div className="w-40 min-w-[160px] rounded-2xl overflow-hidden bg-line relative">
+        <div className="w-full rounded-2xl overflow-hidden bg-line relative aspect-[4/5] sm:aspect-auto sm:w-40">
           <img src={artwork.img} alt={artwork.title} loading="lazy" className="w-full h-full object-cover" />
         </div>
         <div className="flex-1 flex flex-col justify-center min-w-0">
@@ -57,7 +57,7 @@ export function ArtworkCard({ artwork, view = "grid" }: ArtworkCardProps) {
           </div>
           <StarRating rating={artwork.rating} count={artwork.reviewCount} />
         </div>
-        <div className="flex flex-col items-end justify-between min-w-[130px]">
+        <div className="flex flex-col sm:items-end justify-between min-w-0 w-full sm:w-auto">
           <div className="font-serif text-[19px] font-semibold">{formatPrice(artwork.price)}</div>
           <div className="flex gap-2">
             <IconButton aria-label="Wishlist" active={isWished} onClick={stop(() => toggleWishlist(artwork.id))}>

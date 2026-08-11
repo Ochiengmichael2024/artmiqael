@@ -25,7 +25,7 @@ export function ProductTabs({ artwork, artist, reviews }: { artwork: Artwork; ar
           label: "Shipping & materials",
           content: (
             <div className="grid gap-4">
-              <div className="flex gap-3">
+              <div className="flex flex-wrap gap-3">
                 <IconBox size={36} icon={<Truck size={17} />} />
                 <div>
                   <strong className="text-sm">Dimensions &amp; materials</strong>
@@ -34,7 +34,7 @@ export function ProductTabs({ artwork, artist, reviews }: { artwork: Artwork; ar
                   </p>
                 </div>
               </div>
-              <div className="flex gap-3">
+              <div className="flex flex-wrap gap-3">
                 <IconBox size={36} icon={<PackageCheck size={17} />} />
                 <div>
                   <strong className="text-sm">Availability</strong>
@@ -43,7 +43,7 @@ export function ProductTabs({ artwork, artist, reviews }: { artwork: Artwork; ar
                   </p>
                 </div>
               </div>
-              <div className="flex gap-3">
+              <div className="flex flex-wrap gap-3">
                 <IconBox size={36} icon={<ShieldCheck size={17} />} />
                 <div>
                   <strong className="text-sm">Authenticity</strong>

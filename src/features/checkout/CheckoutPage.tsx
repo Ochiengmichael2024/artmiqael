@@ -60,7 +60,7 @@ export function CheckoutPage() {
       <Breadcrumbs items={[{ label: "Home", to: ROUTES.home }, { label: "Cart", to: ROUTES.cart }, { label: "Checkout" }]} />
       <PageHeader title="Checkout" />
       <StepIndicator steps={STEPS} active={step} />
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-10">
+      <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,340px)] gap-10">
         <Card raised className="p-7">
           {step === 0 && (
             <ShippingStep shipping={shipping} onChange={setShipping} errors={errors} delivery={delivery} onDeliveryChange={setDelivery} deliveryOptions={deliveryOptions} />
@@ -88,7 +88,7 @@ export function CheckoutPage() {
           </div>
         </Card>
 
-        <Card raised className="p-5.5 sticky top-24 self-start">
+        <Card raised className="p-5.5 lg:sticky lg:top-24 self-start">
           <div className="heading-serif text-lg mb-3.5">Order summary</div>
           <SummaryRow label="Subtotal" value={formatPrice(subtotal)} />
           {discount > 0 && <SummaryRow label="Discount" value={"−" + formatPrice(discount)} />}

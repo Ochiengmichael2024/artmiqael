@@ -15,9 +15,9 @@ export function ReviewStep({ items, shipping, billing, delivery }: ReviewStepPro
     <div className="grid gap-5">
       <div className="heading-serif text-xl">Review your order</div>
       {items.map((c) => (
-        <div key={c.id} className="flex gap-3.5 items-center">
+        <div key={c.id} className="flex flex-col sm:flex-row gap-3.5 items-start sm:items-center justify-between">
           <img src={c.artwork.img} alt="" className="w-[54px] h-16 rounded-lg object-cover shrink-0" />
-          <div className="flex-1">
+          <div className="flex-1 min-w-0">
             <div className="text-sm font-semibold">{c.artwork.title}</div>
             <div className="text-xs text-ink-soft">Qty {c.qty}</div>
           </div>

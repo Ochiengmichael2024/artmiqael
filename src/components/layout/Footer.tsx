@@ -8,8 +8,8 @@ import { IconButton } from "@/components/ui/IconButton";
 export function Footer() {
   return (
     <footer className="border-t border-line mt-20">
-      <div className="container-page py-14 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
-        <div className="col-span-2">
+      <div className="container-page py-14 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
+        <div className="col-span-1 lg:col-span-2">
           <div className="font-serif text-[22px] mb-3">ARTMIQAEL</div>
           <p className="text-[13px] text-ink-soft leading-relaxed max-w-[260px] mb-4">
             Original works and considered editions, selected for the spaces you call your own.

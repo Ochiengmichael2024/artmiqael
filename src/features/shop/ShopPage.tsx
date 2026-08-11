@@ -36,18 +36,20 @@ export function ShopPage() {
           { label: search ? `"${search}"` : catLabel || "All artwork" },
         ]}
       />
-      <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-10 mt-5">
+      <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,260px)_1fr] gap-10 mt-5">
         <aside className="hidden lg:block">
           <FilterSidebar filters={filters} onToggle={toggleFilter} onClear={clearFilters} resultCount={resultCount} activeCount={activeFilterCount} />
         </aside>
 
         <div>
-          <div className="flex justify-between items-center gap-3 mb-5 flex-wrap">
-            <Button variant="secondary" size="sm" className="lg:hidden" onClick={() => setMobileFiltersOpen(true)}>
-              <SlidersHorizontal size={14} /> Filters {activeFilterCount > 0 && `(${activeFilterCount})`}
-            </Button>
-            <div className="text-[13px] text-ink-soft">{search ? `Results for "${search}"` : "Sorted results"}</div>
-            <div className="flex items-center gap-3 ml-auto">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-5">
+            <div className="flex flex-wrap items-center gap-2">
+              <Button variant="secondary" size="sm" className="lg:hidden" onClick={() => setMobileFiltersOpen(true)}>
+                <SlidersHorizontal size={14} /> Filters {activeFilterCount > 0 && `(${activeFilterCount})`}
+              </Button>
+              <div className="text-[13px] text-ink-soft">{search ? `Results for "${search}"` : "Sorted results"}</div>
+            </div>
+            <div className="flex flex-wrap items-center gap-3 ml-0 sm:ml-auto">
               <div className="flex gap-1">
                 <IconButton aria-label="Grid view" className={view === "grid" ? "bg-accent-soft" : ""} onClick={() => setView("grid")}>
                   <Grid2x2 size={15} />
@@ -56,7 +58,7 @@ export function ShopPage() {
                   <List size={15} />
                 </IconButton>
               </div>
-              <Select aria-label="Sort by" className="w-[190px]" value={sort} onChange={(e) => setSort(e.target.value as SortKey)}>
+              <Select aria-label="Sort by" className="w-full sm:w-[190px]" value={sort} onChange={(e) => setSort(e.target.value as SortKey)}>
                 {SORT_OPTIONS.map((s) => (
                   <option key={s.key} value={s.key}>
                     {s.label}
@@ -87,7 +89,7 @@ export function ShopPage() {
       {mobileFiltersOpen && (
         <div className="fixed inset-0 z-[160] flex justify-end">
           <div className="absolute inset-0 bg-ink/50" onClick={() => setMobileFiltersOpen(false)} />
-          <div className="animate-fade-up relative w-[320px] max-w-[88vw] h-full bg-surface-raised overflow-auto">
+          <div className="animate-fade-up relative w-full max-w-[88vw] sm:max-w-[420px] h-full bg-surface-raised overflow-auto">
             <FilterSidebar
               filters={filters}
               onToggle={toggleFilter}

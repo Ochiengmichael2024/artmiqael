@@ -17,8 +17,8 @@ export interface CartItemRowProps {
 
 export function CartItemRow({ artwork, qty, onUpdateQty, onRemove, onSaveForLater }: CartItemRowProps) {
   return (
-    <Card className="flex gap-4 p-4 mb-3.5 items-center">
-      <Link to={ROUTES.product(artwork.id)} className="w-[84px] h-[100px] rounded-[10px] overflow-hidden shrink-0 block">
+    <Card className="flex flex-col sm:flex-row gap-4 p-4 mb-3.5 items-start sm:items-center">
+      <Link to={ROUTES.product(artwork.id)} className="w-full sm:w-[84px] h-[100px] rounded-[10px] overflow-hidden shrink-0 block">
         <img src={artwork.img} alt={artwork.title} className="w-full h-full object-cover" />
       </Link>
       <div className="flex-1 min-w-0">
@@ -27,7 +27,7 @@ export function CartItemRow({ artwork, qty, onUpdateQty, onRemove, onSaveForLate
           {artwork.title}
         </Link>
         <div className="text-xs text-ink-soft my-1">{artwork.dims}</div>
-        <div className="flex items-center gap-3.5">
+        <div className="flex flex-wrap items-center gap-3.5">
           <div className="flex items-center border border-line-strong rounded-full">
             <button className="icon-btn border-0 w-[30px] h-[30px]" onClick={() => onUpdateQty(Math.max(1, qty - 1))} aria-label="Decrease">
               <Minus size={12} />
