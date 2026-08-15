@@ -11,16 +11,6 @@ import { useAuth } from "@/hooks/useAuth";
 import { useSearchSuggestions } from "@/hooks/useSearchSuggestions";
 import { MobileDrawer } from "@/components/layout/MobileDrawer";
 
-// lightweight wrapper to avoid SSR/bundling issues
-function GooeySearchPlaceholder() {
-  const Comp = React.lazy(() => import("@/components/ui/animated-search-bar/GooeySearchBar"));
-  return (
-    <React.Suspense fallback={<div className="h-9" />}>
-      <Comp />
-    </React.Suspense>
-  );
-}
-
 function CountDot({ n }: { n: number }) {
   return (
     <span
@@ -60,6 +50,8 @@ export function Header() {
     navigate(`${ROUTES.shop}?search=${encodeURIComponent(value)}`);
   }
 
+  const showSuggestions = searchOpen && query.trim().length > 0 && suggestions.length > 0;
+
   return (
     <header className="sticky top-0 z-[100] bg-bg">
       <div className="bg-black text-[#EFEAE0]">
@@ -87,25 +79,66 @@ export function Header() {
           ))}
         </nav>
 
-        <div ref={searchRef} className="relative flex-1 min-w-0 max-w-full lg:max-w-[460px] ml-auto">
-          {/* Replaced native search with animated GooeySearchBar */}
-          <div className="w-full">
-            <React.Suspense>
-              {/* lazy import to avoid bundling framer-motion in SSR paths */}
-              <GooeySearchPlaceholder />
-            </React.Suspense>
+        {/* Merged search + wishlist + cart pill */}
+        <div ref={searchRef} className="relative flex-1 min-w-0 max-w-full lg:max-w-[420px] ml-auto">
+          <div className="flex items-center gap-1.5 rounded-full p-1.5" style={{ backgroundColor: "var(--accent)" }}>
+            <div className="relative flex-1 min-w-0">
+              <Search
+                size={14}
+                className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-faint"
+                aria-hidden="true"
+              />
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onFocus={() => setSearchOpen(true)}
+                onKeyDown={(e) => e.key === "Enter" && runSearch()}
+                placeholder="Type R..."
+                aria-label="Search artworks"
+                className="w-full min-w-0 bg-surface-raised rounded-full pl-9 pr-4 py-2 text-sm text-ink placeholder:text-ink-faint outline-none"
+              />
+            </div>
+
+            <IconButton
+              aria-label={`Wishlist (${wishlist.length})`}
+              className="relative shrink-0 border-transparent"
+              onClick={() => navigate(ROUTES.wishlist)}
+            >
+              <Heart size={16} />
+              {wishlist.length > 0 && <CountDot n={wishlist.length} />}
+            </IconButton>
+            <IconButton
+              aria-label={`Cart (${cartCount})`}
+              className="relative shrink-0 border-transparent"
+              onClick={() => navigate(ROUTES.cart)}
+            >
+              <ShoppingBag size={16} />
+              {cartCount > 0 && <CountDot n={cartCount} />}
+            </IconButton>
           </div>
+
+          {showSuggestions && (
+            <div
+              className="absolute right-0 top-full mt-2 w-full sm:w-72 max-w-[90vw] rounded-2xl bg-surface-raised shadow-lg overflow-hidden z-50"
+              role="listbox"
+              aria-label="Search suggestions"
+            >
+              {suggestions.map((s) => (
+                <div
+                  key={s}
+                  role="option"
+                  className="p-2.5 text-sm cursor-pointer hover:bg-line/40"
+                  onClick={() => runSearch(s)}
+                >
+                  {s}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="flex flex-wrap items-center gap-1.5">
-          <IconButton aria-label={`Wishlist (${wishlist.length})`} className="relative" onClick={() => navigate(ROUTES.wishlist)}>
-            <Heart size={16} />
-            {wishlist.length > 0 && <CountDot n={wishlist.length} />}
-          </IconButton>
-          <IconButton aria-label={`Cart (${cartCount})`} className="relative" onClick={() => navigate(ROUTES.cart)}>
-            <ShoppingBag size={16} />
-            {cartCount > 0 && <CountDot n={cartCount} />}
-          </IconButton>
           <ThemeToggle />
           <Button variant="secondary" size="sm" onClick={() => navigate(isAuthenticated ? ROUTES.account : ROUTES.login)}>
             <User size={14} /> {isAuthenticated && user ? user.name.split(" ")[0] : "Account"}
