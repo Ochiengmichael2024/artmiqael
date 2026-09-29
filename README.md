@@ -6,6 +6,10 @@ checkout → account/orders, plus artists, collections, blog, FAQs and policy pa
 
 Verified: `npm install`, `npx tsc -b` (zero errors) and `npm run build` all succeed as shipped.
 
+## Project documentation
+
+For the complete project structure and brief explanation of each module, see [PROJECT_DOCUMENTATION.md](PROJECT_DOCUMENTATION.md).
+
 ## Quick start (Google Cloud Shell or any machine with Node 18+)
 
 ```bash
@@ -43,24 +47,59 @@ a seller dashboard and an admin panel. `/sell` is an application form, not a wor
 
 ## Architecture
 
-```
-src/
-  app/            Root App component, router (routes.tsx), provider composition
-  components/
-    ui/           Generic, reusable primitives (Button, Card, Modal, Input, Accordion, Tabs, ...)
-    layout/       Header, Footer, MobileDrawer, Breadcrumbs, MainLayout
-    common/       Cross-feature building blocks (ArtworkCard, Toasts, QuickViewModal, Pagination, ...)
-  features/       One folder per route/feature — home, shop, product, cart, checkout, auth, account,
-                  artists, collections, about, contact, custom-artwork, sell, blog, faqs, policy
-  context/        React Context providers (Toast, Cart, Auth, UI/overlay state)
-  hooks/          Custom hooks (useCart, useAuth, useToast, useShopFilters, useWishlist, ...)
-  services/       Simulated API layer (artwork/artist/auth/order) + storage wrapper
-  data/           Static catalogue data — artworks, artists, blog posts, FAQs (no hardcoded content
-                  lives in components)
-  constants/      Routes, nav links, filter option lists
-  types/          Shared TypeScript interfaces
-  utils/          Formatting, slugs, validators, classnames
-  styles/         Tailwind entry + reusable component classes (btn, card, field-input, badge, ...)
+```text
+.
+├─ public/                     Static assets served directly by Vite
+├─ src/
+│  ├─ app/                    App shell, provider composition, route definitions
+│  │  ├─ App.tsx
+│  │  ├─ AppProviders.tsx
+│  │  └─ routes.tsx
+│  ├─ assets/                 Local images, icons, brand/media files
+│  ├─ components/
+│  │  ├─ common/              Shared storefront UI blocks (cards, modal, pagination, toasts)
+│  │  ├─ layout/              Header, Footer, Breadcrumbs, MobileDrawer, main shell
+│  │  └─ ui/                  Reusable primitives (Button, Input, Select, Modal, Tabs, etc.)
+│  ├─ constants/              Navigation, routes, filter config, static lists
+│  ├─ context/                Cart, auth, theme, toast, UI state providers
+│  ├─ data/                   Artwork, artist, blog, FAQ, review, category data sets
+│  ├─ features/
+│  │  ├─ about/
+│  │  ├─ account/
+│  │  ├─ artists/
+│  │  ├─ auth/
+│  │  ├─ blog/
+│  │  ├─ cart/
+│  │  ├─ checkout/
+│  │  ├─ collections/
+│  │  ├─ contact/
+│  │  ├─ custom-artwork/
+│  │  ├─ faqs/
+│  │  ├─ home/
+│  │  ├─ not-found/
+│  │  ├─ order-success/
+│  │  ├─ policy/
+│  │  ├─ product/
+│  │  ├─ sell/
+│  │  ├─ shop/
+│  │  └─ wishlist/
+│  ├─ hooks/                  Reusable custom hooks for auth, cart, wishlist, filters, UI
+│  ├─ services/               Simulated API/storage layer (artwork, auth, order, storage)
+│  ├─ styles/                 Tailwind/global styling and reusable utility classes
+│  ├─ types/                  Shared TypeScript models and interfaces
+│  ├─ utils/                  formatters, cx helper, validators, slugs
+│  ├─ main.tsx
+│  ├─ vite-env.d.ts
+│  └─ index.css (if present in a future refactor; styling is currently in styles/globals.css)
+├─ index.html
+├─ package.json
+├─ tailwind.config.ts
+├─ postcss.config.js
+├─ tsconfig.json
+├─ tsconfig.node.json
+├─ vite.config.ts
+├─ README.md
+└─ .gitignore
 ```
 
 ### Why this split
