@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Search, Heart, ShoppingBag, User, Menu } from "lucide-react";
 import { PRIMARY_NAV } from "@/constants/navigation";
@@ -10,16 +10,6 @@ import { useCart } from "@/hooks/useCart";
 import { useAuth } from "@/hooks/useAuth";
 import { useSearchSuggestions } from "@/hooks/useSearchSuggestions";
 import { MobileDrawer } from "@/components/layout/MobileDrawer";
-
-// lightweight wrapper to avoid SSR/bundling issues
-function GooeySearchPlaceholder() {
-  const Comp = React.lazy(() => import("@/components/ui/animated-search-bar/GooeySearchBar"));
-  return (
-    <React.Suspense fallback={<div className="h-9" />}>
-      <Comp />
-    </React.Suspense>
-  );
-}
 
 function CountDot({ n }: { n: number }) {
   return (
@@ -88,13 +78,81 @@ export function Header() {
         </nav>
 
         <div ref={searchRef} className="relative flex-1 min-w-0 max-w-full lg:max-w-[460px] ml-auto">
-          {/* Replaced native search with animated GooeySearchBar */}
-          <div className="w-full">
-            <React.Suspense>
-              {/* lazy import to avoid bundling framer-motion in SSR paths */}
-              <GooeySearchPlaceholder />
-            </React.Suspense>
+          <div className="flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-2 shadow-sm">
+            <Search size={15} className="text-muted flex-shrink-0" />
+            <input
+              type="search"
+              value={query}
+              onFocus={() => setSearchOpen(true)}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                setSearchOpen(true);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  runSearch();
+                }
+              }}
+              placeholder="Search artworks, artists, styles"
+              aria-label="Search artworks and artists"
+              className="w-full bg-transparent text-sm text-ink placeholder:text-muted focus:outline-none"
+            />
+            <Button type="button" variant="secondary" size="sm" onClick={() => runSearch()} className="whitespace-nowrap">
+              Search
+            </Button>
           </div>
+
+          {searchOpen && (query.trim() || recentSearches.length > 0) && (
+            <div className="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-20 rounded-2xl border border-line bg-surface p-2 shadow-xl">
+              {query.trim() ? (
+                <>
+                  {suggestions.artworks.length === 0 && suggestions.artists.length === 0 ? (
+                    <div className="px-3 py-2 text-sm text-muted">No matches found</div>
+                  ) : (
+                    <div className="space-y-1">
+                      {suggestions.artworks.map((artwork) => (
+                        <button
+                          key={artwork.id}
+                          type="button"
+                          onClick={() => runSearch(artwork.title)}
+                          className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm text-ink hover:bg-muted/10"
+                        >
+                          <span>{artwork.title}</span>
+                          <span className="text-xs text-muted">Artwork</span>
+                        </button>
+                      ))}
+                      {suggestions.artists.map((artist) => (
+                        <button
+                          key={artist.id}
+                          type="button"
+                          onClick={() => runSearch(artist.name)}
+                          className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm text-ink hover:bg-muted/10"
+                        >
+                          <span>{artist.name}</span>
+                          <span className="text-xs text-muted">Artist</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div className="space-y-1">
+                  {recentSearches.map((term) => (
+                    <button
+                      key={term}
+                      type="button"
+                      onClick={() => runSearch(term)}
+                      className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm text-ink hover:bg-muted/10"
+                    >
+                      <span>{term}</span>
+                      <span className="text-xs text-muted">Recent</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         <div className="flex flex-wrap items-center gap-1.5">
