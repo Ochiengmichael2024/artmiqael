@@ -304,7 +304,7 @@ This gives the app a consistent design language for:
 
 The design system is intentionally reusable so each feature does not need to define its own visual patterns from scratch.
 
-The home hero's “Browse art” CTA uses the shared primary button with a scoped hover treatment: it fades to 80% opacity while retaining the primary ink background. Other primary buttons keep the shared hover behavior.
+All buttons rendered through the shared `Button` component reuse one hover treatment: enabled buttons fade to 85% opacity while retaining their configured background color. This behavior is defined in `src/styles/globals.css`, not repeated in individual pages or variants.
 
 ---
 
