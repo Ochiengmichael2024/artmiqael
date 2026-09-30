@@ -16,7 +16,7 @@ export function Hero() {
       </p>
       <div className="flex gap-3 mt-7 flex-wrap">
         <Button onClick={() => navigate(ROUTES.shop)}>
-          Browse art <ArrowRight size={15} />
+          Browse art
         </Button>
         <Button variant="secondary" onClick={() => navigate(ROUTES.artists)}>
           Meet artists
