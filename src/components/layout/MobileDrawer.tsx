@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { X } from "lucide-react";
 import { PRIMARY_NAV, MOBILE_EXTRA_NAV } from "@/constants/navigation";
 import { ROUTES } from "@/constants/routes";
@@ -28,13 +28,18 @@ export function MobileDrawer({ onClose }: { onClose: () => void }) {
         </div>
         <div className="flex flex-col gap-1">
           {[...PRIMARY_NAV, ...MOBILE_EXTRA_NAV].map((l) => (
-            <button
+            <NavLink
               key={l.label}
-              onClick={() => go(l.to)}
-              className="text-left bg-transparent border-0 border-b border-line py-3 px-1 text-base"
+              to={l.to}
+              onClick={onClose}
+              className={({ isActive }) =>
+                `text-left bg-transparent border-0 border-b border-line py-3 px-1 text-base ${
+                  isActive ? "text-[#8C5A2B]" : "text-ink"
+                }`
+              }
             >
               {l.label}
-            </button>
+            </NavLink>
           ))}
         </div>
         <div className="mt-auto flex flex-col gap-2.5 pt-6">

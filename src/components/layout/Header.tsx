@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Search, Heart, ShoppingBag, User, Menu } from "lucide-react";
 import { PRIMARY_NAV } from "@/constants/navigation";
 import { ROUTES } from "@/constants/routes";
@@ -71,9 +71,15 @@ export function Header() {
         </Link>
         <nav className="hidden lg:flex gap-6 lg:ml-2">
           {PRIMARY_NAV.map((l) => (
-            <Link key={l.label} to={l.to} className="text-sm font-medium text-ink hover:text-accent">
+            <NavLink
+              key={l.label}
+              to={l.to}
+              className={({ isActive }) =>
+                `text-sm font-medium ${isActive ? "text-[#8C5A2B]" : "text-ink hover:text-accent"}`
+              }
+            >
               {l.label}
-            </Link>
+            </NavLink>
           ))}
         </nav>
 

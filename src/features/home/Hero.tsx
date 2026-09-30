@@ -15,7 +15,7 @@ export function Hero() {
         Original works and considered editions, selected for the spaces you call your own.
       </p>
       <div className="flex gap-3 mt-7 flex-wrap">
-        <Button onClick={() => navigate(ROUTES.shop)}>
+        <Button className="hover:opacity-85 hover:!bg-ink" onClick={() => navigate(ROUTES.shop)}>
           Browse art
         </Button>
         <Button variant="secondary" onClick={() => navigate(ROUTES.artists)}>

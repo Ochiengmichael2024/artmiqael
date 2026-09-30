@@ -304,6 +304,8 @@ This gives the app a consistent design language for:
 
 The design system is intentionally reusable so each feature does not need to define its own visual patterns from scratch.
 
+The home hero's “Browse art” CTA uses the shared primary button with a scoped hover treatment: it fades to 80% opacity while retaining the primary ink background. Other primary buttons keep the shared hover behavior.
+
 ---
 
 ## 6. Key Architectural Principles

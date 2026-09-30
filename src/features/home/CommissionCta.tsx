@@ -13,8 +13,8 @@ export function CommissionCta() {
         <div className="heading-serif text-2xl mb-2">Have a space in mind?</div>
         <p className="text-ink-soft text-sm max-w-[420px]">Commission an original piece built for your exact wall, palette and budget.</p>
       </div>
-      <Button onClick={() => navigate(ROUTES.customArtwork)}>
-        Start a commission <ArrowRight size={15} />
+      <Button className="hover:opacity-85 hover:!bg-ink" onClick={() => navigate(ROUTES.customArtwork)}>
+        Start a commission 
       </Button>
     </Card>
   );
