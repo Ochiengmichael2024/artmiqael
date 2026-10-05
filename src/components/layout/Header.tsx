@@ -62,14 +62,14 @@ export function Header() {
         </div>
       </div>
 
-      <div className="container-page flex flex-wrap items-center gap-4 py-4 border-b border-line">
-        <IconButton aria-label="Open menu" className="border border-line lg:hidden" onClick={() => setMobileOpen(true)}>
+      <div className="container-page flex flex-wrap items-center gap-x-1 gap-y-3 sm:gap-x-2 lg:flex-nowrap lg:gap-4 py-3 sm:py-4 border-b border-line">
+        <IconButton aria-label="Open menu" className="order-1 h-8 w-8 border border-line sm:h-[38px] sm:w-[38px] lg:hidden" onClick={() => setMobileOpen(true)}>
           <Menu size={17} />
         </IconButton>
-        <Link to={ROUTES.home} className="font-serif text-[22px] font-semibold tracking-wide text-ink">
+        <Link to={ROUTES.home} className="order-2 font-serif text-base sm:text-[22px] font-semibold tracking-wide text-ink">
           ARTMIQAEL
         </Link>
-        <nav className="hidden lg:flex gap-6 lg:ml-2">
+        <nav className="hidden lg:order-2 lg:ml-2 lg:flex gap-6">
           {PRIMARY_NAV.map((l) => (
             <NavLink
               key={l.label}
@@ -83,7 +83,7 @@ export function Header() {
           ))}
         </nav>
 
-        <div ref={searchRef} className="relative flex-1 min-w-0 max-w-full lg:max-w-[460px] ml-auto">
+        <div ref={searchRef} className="relative order-4 flex-1 basis-full min-w-0 max-w-full lg:order-3 lg:basis-auto lg:max-w-[460px] lg:ml-auto">
           <div className="flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-2 shadow-sm">
             <Search size={15} className="text-muted flex-shrink-0" />
             <input
@@ -102,7 +102,7 @@ export function Header() {
               }}
               placeholder="Search artworks, artists, styles"
               aria-label="Search artworks and artists"
-              className="w-full bg-transparent text-sm text-ink placeholder:text-muted focus:outline-none"
+              className="w-full min-w-0 bg-transparent text-sm text-ink placeholder:text-muted focus:outline-none"
             />
             <Button type="button" variant="secondary" size="sm" onClick={() => runSearch()} className="whitespace-nowrap">
               Search
@@ -161,17 +161,24 @@ export function Header() {
           )}
         </div>
 
-        <div className="flex flex-wrap items-center gap-1.5">
-          <IconButton aria-label={`Wishlist (${wishlist.length})`} className="relative" onClick={() => navigate(ROUTES.wishlist)}>
+        <div className="order-3 ml-auto flex items-center gap-0.5 sm:gap-1.5 lg:order-4 lg:ml-auto lg:w-auto">
+          <IconButton aria-label={`Wishlist (${wishlist.length})`} className="relative h-8 w-8 sm:h-[38px] sm:w-[38px]" onClick={() => navigate(ROUTES.wishlist)}>
             <Heart size={16} />
             {wishlist.length > 0 && <CountDot n={wishlist.length} />}
           </IconButton>
-          <IconButton aria-label={`Cart (${cartCount})`} className="relative" onClick={() => navigate(ROUTES.cart)}>
+          <IconButton aria-label={`Cart (${cartCount})`} className="relative h-8 w-8 sm:h-[38px] sm:w-[38px]" onClick={() => navigate(ROUTES.cart)}>
             <ShoppingBag size={16} />
             {cartCount > 0 && <CountDot n={cartCount} />}
           </IconButton>
-          <ThemeToggle />
-          <Button variant="secondary" size="sm" onClick={() => navigate(isAuthenticated ? ROUTES.account : ROUTES.login)}>
+          <ThemeToggle className="h-8 w-8 sm:h-[38px] sm:w-[38px]" />
+          <IconButton
+            aria-label={isAuthenticated && user ? `Account: ${user.name}` : "Account"}
+            className="h-8 w-8 sm:hidden"
+            onClick={() => navigate(isAuthenticated ? ROUTES.account : ROUTES.login)}
+          >
+            <User size={16} />
+          </IconButton>
+          <Button variant="secondary" size="sm" className="hidden sm:inline-flex" onClick={() => navigate(isAuthenticated ? ROUTES.account : ROUTES.login)}>
             <User size={14} /> {isAuthenticated && user ? user.name.split(" ")[0] : "Account"}
           </Button>
         </div>
