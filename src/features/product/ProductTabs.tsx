@@ -1,9 +1,85 @@
-import React from "react";
-import { Truck, PackageCheck, ShieldCheck } from "lucide-react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { Truck, PackageCheck, ShieldCheck, Volume2, Square } from "lucide-react";
 import type { Artwork, Artist, Review } from "@/types";
 import { Tabs } from "@/components/ui/Tabs";
 import { StarRating } from "@/components/ui/StarRating";
 import { IconBox } from "@/components/ui/IconBox";
+import { Button } from "@/components/ui/Button";
+
+function DescriptionPanel({ artwork, artist }: { artwork: Artwork; artist: Artist }) {
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [speechError, setSpeechError] = useState("");
+  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+
+  const startDescriptionSpeech = useCallback(() => {
+    setIsSpeaking(false);
+    if (!("speechSynthesis" in window) || typeof SpeechSynthesisUtterance === "undefined") {
+      setSpeechError("Text-to-speech is not supported by this browser.");
+      return;
+    }
+
+    setSpeechError("");
+    const utterance = new SpeechSynthesisUtterance(artwork.description);
+    utterance.lang = navigator.language;
+    utterance.onend = () => {
+      utteranceRef.current = null;
+      setIsSpeaking(false);
+    };
+    utterance.onerror = (event) => {
+      utteranceRef.current = null;
+      setIsSpeaking(false);
+      if (event.error !== "canceled" && event.error !== "interrupted") {
+        setSpeechError("Unable to play the description. Please try again.");
+      }
+    };
+    utteranceRef.current = utterance;
+    setIsSpeaking(true);
+    window.speechSynthesis.speak(utterance);
+  }, [artwork.description]);
+
+  useEffect(() => {
+    startDescriptionSpeech();
+    return () => {
+      const utterance = utteranceRef.current;
+      if (utterance) {
+        utterance.onend = null;
+        utterance.onerror = null;
+        utteranceRef.current = null;
+        window.speechSynthesis?.cancel();
+      }
+    };
+  }, [startDescriptionSpeech]);
+
+  function toggleDescriptionSpeech() {
+    if (isSpeaking) {
+      const utterance = utteranceRef.current;
+      if (utterance) {
+        utterance.onend = null;
+        utterance.onerror = null;
+        utteranceRef.current = null;
+      }
+      window.speechSynthesis.cancel();
+      setIsSpeaking(false);
+      return;
+    }
+    startDescriptionSpeech();
+  }
+
+  return (
+    <div>
+      <div className="mb-4 flex flex-wrap items-center gap-3">
+        <Button type="button" variant="secondary" size="sm" onClick={toggleDescriptionSpeech} aria-pressed={isSpeaking}>
+          {isSpeaking ? <Square size={14} /> : <Volume2 size={15} />}
+          {isSpeaking ? "Stop reading" : "Listen to description"}
+        </Button>
+        <span className="text-xs text-ink-faint">Description starts reading automatically using your browser’s voice.</span>
+      </div>
+      {speechError && <p className="mb-3 text-sm text-danger" role="status">{speechError}</p>}
+      <p className="text-[14.5px] leading-[1.8] text-ink-soft mb-4">{artwork.description}</p>
+      <p className="text-[14.5px] leading-[1.8] text-ink-soft">{artist.bio}</p>
+    </div>
+  );
+}
 
 export function ProductTabs({ artwork, artist, reviews }: { artwork: Artwork; artist: Artist; reviews: Review[] }) {
   return (
@@ -13,12 +89,7 @@ export function ProductTabs({ artwork, artist, reviews }: { artwork: Artwork; ar
         {
           key: "description",
           label: "Description",
-          content: (
-            <div>
-              <p className="text-[14.5px] leading-[1.8] text-ink-soft mb-4">{artwork.description}</p>
-              <p className="text-[14.5px] leading-[1.8] text-ink-soft">{artist.bio}</p>
-            </div>
-          ),
+          content: <DescriptionPanel artwork={artwork} artist={artist} />,
         },
         {
           key: "shipping",

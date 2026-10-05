@@ -13,9 +13,9 @@ import { isRequired, isValidEmail } from "@/utils/validators";
 import { useToast } from "@/hooks/useToast";
 
 const BENEFITS: [string, string, string][] = [
-  ["01", "You keep the majority of every sale", "Artists retain 80% of the sale price on every original and edition."],
-  ["02", "We handle logistics", "Packaging, shipping and customer support are on us once a piece sells."],
-  ["03", "Full control over pricing", "You set your own prices and editions — we never discount your work without asking."],
+  ["", "You keep the majority of every sale", "Artists retain 80% of the sale price on every original and edition."],
+  ["", "We handle logistics", "Packaging, shipping and customer support are on us once a piece sells."],
+  ["", "Full control over pricing", "You set your own prices and editions — we never discount your work without asking."],
 ];
 
 export function SellPage() {

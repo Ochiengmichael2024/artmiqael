@@ -208,6 +208,10 @@ Privacy, shipping, returns, and policy content pages.
 #### product/
 Single artwork detail page and related product presentation.
 
+- ProductTabs.tsx: artwork description, artist bio, shipping details, and reviews; opening an artwork automatically starts browser text-to-speech for its description, with a control to stop or replay it.
+
+The speech control uses the browser's Speech Synthesis API and stops when playback is stopped, the artwork changes, or the Description tab is closed. Background ambience is not included.
+
 #### sell/
 Artwork selling submission or seller inquiry form.
 
