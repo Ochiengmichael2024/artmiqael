@@ -64,7 +64,7 @@ export function BuyBox({ artwork, artist }: { artwork: Artwork; artist: Artist }
             navigate(ROUTES.checkout);
           }}
         >
-          Buy now <ArrowRight size={15} />
+          Buy now 
         </Button>
       </div>
       <div className="flex gap-2.5 mb-6 flex-wrap">

@@ -6,6 +6,26 @@ import { StarRating } from "@/components/ui/StarRating";
 import { IconBox } from "@/components/ui/IconBox";
 import { Button } from "@/components/ui/Button";
 
+// Speech settings (1 = normal speed / pitch)
+const SPEECH_RATE = 0.85; // slower, more relaxed pace
+const SPEECH_PITCH = 1.1; // slightly higher, softer tone
+
+// Browsers don't expose a "gender" field, so we match common female voice names.
+const FEMININE_VOICE_HINTS = [
+  "female", "samantha", "victoria", "karen", "moira", "tessa", "fiona",
+  "zira", "aria", "jenny", "hazel", "susan", "libby", "sonia", "natasha",
+  "google us english", "google uk english female",
+];
+
+function pickFeminineVoice(lang: string): SpeechSynthesisVoice | null {
+  const voices = window.speechSynthesis.getVoices();
+  if (!voices.length) return null;
+  const prefix = lang.split("-")[0].toLowerCase();
+  const sameLanguage = voices.filter((v) => v.lang.toLowerCase().startsWith(prefix));
+  const pool = sameLanguage.length ? sameLanguage : voices;
+  return pool.find((v) => FEMININE_VOICE_HINTS.some((hint) => v.name.toLowerCase().includes(hint))) ?? null;
+}
+
 function DescriptionPanel({ artwork, artist }: { artwork: Artwork; artist: Artist }) {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [speechError, setSpeechError] = useState("");
@@ -20,7 +40,16 @@ function DescriptionPanel({ artwork, artist }: { artwork: Artwork; artist: Artis
 
     setSpeechError("");
     const utterance = new SpeechSynthesisUtterance(artwork.description);
+    utterance.rate = SPEECH_RATE;
+    utterance.pitch = SPEECH_PITCH;
     utterance.lang = navigator.language;
+
+    const voice = pickFeminineVoice(navigator.language);
+    if (voice) {
+      utterance.voice = voice;
+      utterance.lang = voice.lang;
+    }
+
     utterance.onend = () => {
       utteranceRef.current = null;
       setIsSpeaking(false);
@@ -38,8 +67,25 @@ function DescriptionPanel({ artwork, artist }: { artwork: Artwork; artist: Artis
   }, [artwork.description]);
 
   useEffect(() => {
-    startDescriptionSpeech();
+    let started = false;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const begin = () => {
+      if (started) return;
+      started = true;
+      startDescriptionSpeech();
+    };
+
+    if (!("speechSynthesis" in window) || window.speechSynthesis.getVoices().length > 0) {
+      begin();
+    } else {
+      // Voices often load a moment after the page does, so wait for them.
+      window.speechSynthesis.addEventListener("voiceschanged", begin, { once: true });
+      timer = setTimeout(begin, 500); // fallback if the event never fires
+    }
+
     return () => {
+      if (timer) clearTimeout(timer);
+      window.speechSynthesis?.removeEventListener?.("voiceschanged", begin);
       const utterance = utteranceRef.current;
       if (utterance) {
         utterance.onend = null;
