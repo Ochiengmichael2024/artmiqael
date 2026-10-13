@@ -242,6 +242,14 @@
     border-color: var(--line);
   }
 
+  /* Dark-mode badge adjustments: use system palette variables so badge text stays light and legible
+     while the badge background becomes a subtle dark pill derived from surface-raised. */
+  [data-theme="dark"] .badge {
+    background-color: rgba(var(--surface-raised-rgb), 0.12);
+    color: var(--ink); /* light text from palette */
+    border-color: rgba(var(--line-rgb), 0.18);
+  }
+
   .badge-accent {
     @apply bg-accent-soft text-accent border-transparent;
   }
