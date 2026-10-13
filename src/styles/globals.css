@@ -119,19 +119,10 @@
     @apply font-serif font-medium tracking-tight leading-[1.05];
   }
 
- .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold whitespace-nowrap
-           transition-transform hover:opacity-80 active:scale-[0.98]
-           disabled:opacity-80 disabled:cursor-not-allowed disabled:active:scale-100;
-
-    transition-property: opacity, transform;
-    transition-duration: 200ms;
- }
-
- /* enforce minimum hover opacity for all .btn variants */
- .btn:hover {
-   opacity: 0.8 !important;
- }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold whitespace-nowrap active:scale-[0.98] disabled:opacity-80 disabled:cursor-not-allowed disabled:active:scale-100;
+    transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease, transform 200ms ease;
+  }
 
   .btn-primary {
     @apply btn bg-ink text-surface-raised hover:bg-line;
@@ -139,11 +130,23 @@
     color: var(--surface);
   }
 
+  .btn-primary:hover {
+    background-color: var(--line);
+    color: var(--ink);
+    opacity: 1 !important;
+  }
+
   .btn-secondary {
     @apply btn bg-surface-raised text-ink border;
     background-color: var(--surface-raised);
     color: var(--ink);
     border-color: var(--line-strong);
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--line);
+    color: var(--ink);
+    opacity: 1 !important;
   }
 
   .btn-ghost {
